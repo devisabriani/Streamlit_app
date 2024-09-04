@@ -1,13 +1,13 @@
 import streamlit as st
 from textwrap import dedent
 
-def create_agents(topic, grade):
+def create_agents(topic, grade, school_type, inclusion, frameworks, teaching_method):
     teacher = {
         'role': 'Insegnante',
         'goal': 'Pianificare una lezione efficace e coinvolgente',
         'backstory': dedent(f"""
-            Sei un insegnante esperto con anni di esperienza nell'insegnamento a studenti di {grade}.
-            Il tuo obiettivo è creare lezioni coinvolgenti e informative su {topic}.
+            Sei un insegnante esperto con anni di esperienza nell'insegnamento a studenti di {grade} presso scuole {school_type}.
+            Il tuo obiettivo è creare lezioni coinvolgenti e informative su {topic} utilizzando metodi di {teaching_method}.
         """)
     }
     
@@ -16,7 +16,7 @@ def create_agents(topic, grade):
         'goal': 'Assicurare che la lezione sia allineata con gli standard educativi',
         'backstory': dedent(f"""
             Sei un esperto di curriculum con una profonda conoscenza degli standard educativi per studenti di {grade}.
-            Il tuo compito è garantire che la lezione su {topic} soddisfi tutti i requisiti curriculari necessari.
+            Il tuo compito è garantire che la lezione su {topic} soddisfi tutti i requisiti curriculari necessari, tenendo conto delle esigenze di inclusione degli studenti {inclusion}.
         """)
     }
     
@@ -24,26 +24,26 @@ def create_agents(topic, grade):
         'role': 'Consulente Creativo',
         'goal': 'Suggerire attività e approcci innovativi per la lezione',
         'backstory': dedent(f"""
-            Sei un consulente creativo specializzato in metodi di insegnamento innovativi.
+            Sei un consulente creativo specializzato in metodi di insegnamento innovativi, con particolare attenzione all'utilizzo dei framework europei {frameworks}.
             Il tuo obiettivo è proporre idee uniche e coinvolgenti per insegnare {topic} a studenti di {grade}.
         """)
     }
     
     return [teacher, curriculum_expert, creative_consultant]
 
-def create_tasks(topic, grade):
+def create_tasks(topic, grade, school_type, inclusion, frameworks, teaching_method):
     task1 = {
-        'description': f"Sviluppa una struttura di base per una lezione su {topic} per studenti di {grade}",
+        'description': f"Sviluppa una struttura di base per una lezione su {topic} per studenti di {grade} presso scuole {school_type}",
         'agent': 0
     }
     
     task2 = {
-        'description': f"Verifica che la struttura della lezione su {topic} sia conforme agli standard curricolari per {grade}",
+        'description': f"Verifica che la struttura della lezione su {topic} sia conforme agli standard curricolari per {grade}, tenendo conto delle esigenze di inclusione degli studenti {inclusion}",
         'agent': 1
     }
     
     task3 = {
-        'description': f"Proponi attività creative e coinvolgenti per insegnare {topic} a studenti di {grade}",
+        'description': f"Proponi attività creative e coinvolgenti per insegnare {topic} a studenti di {grade}, sfruttando i framework europei {frameworks} e il metodo di {teaching_method}",
         'agent': 2
     }
     
@@ -55,16 +55,30 @@ def create_tasks(topic, grade):
     return [task1, task2, task3, task4]
 
 def main():
-    st.title("Pianificatore di Lezioni con CrewAI")
+    st.set_page_config(page_title="EduCrew - by Devis Abriani")
+    st.title("EduCrew")
+    st.markdown("*by Devis Abriani*")
 
     topic = st.text_input("Inserisci l'argomento della lezione:")
-    grade = st.selectbox("Seleziona la classe:", ["Elementari", "Medie", "Superiori"])
+    
+    grade = st.selectbox("Seleziona il grado scolastico:", ["Primaria", "Secondaria di primo grado", "Secondaria di secondo grado"])
+    
+    if grade == "Secondaria di secondo grado":
+        school_type = st.selectbox("Seleziona il tipo di scuola secondaria:", ["Liceo scientifico", "Liceo classico"])
+    else:
+        school_type = grade
+    
+    inclusion = st.multiselect("Inclusione:", ["Presenza di studenti con DSA (non attivo)", "Presenza di studenti DVA (non attivo)"], default=[])
+    
+    frameworks = st.multiselect("Framework europei:", ["DigComp", "EntreComp", "LifeComp"], default=[])
+    
+    teaching_method = st.selectbox("Metodologia didattica:", ["Lezione frontale", "Flipped Classroom", "Learning by doing", "Inquiry Based Learning"])
 
     if st.button("Pianifica Lezione"):
-        if topic and grade:
+        if topic and grade and school_type and (inclusion or frameworks or teaching_method):
             with st.spinner("Pianificazione in corso..."):
-                agents = create_agents(topic, grade)
-                tasks = create_tasks(topic, grade)
+                agents = create_agents(topic, grade, school_type, inclusion, frameworks, teaching_method)
+                tasks = create_tasks(topic, grade, school_type, inclusion, frameworks, teaching_method)
                 
                 result = dedent(f"""
                     Agenti:
@@ -82,7 +96,7 @@ def main():
                 st.success("Pianificazione completata!")
                 st.write(result)
         else:
-            st.warning("Per favore, inserisci sia l'argomento che la classe.")
+            st.warning("Per favore, compila tutti i campi obbligatori.")
 
 if __name__ == "__main__":
     main()
