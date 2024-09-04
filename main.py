@@ -6,8 +6,8 @@ def create_agents(topic, grade, school_type, inclusion, frameworks, teaching_met
         'role': 'Insegnante',
         'goal': 'Pianificare una lezione efficace e coinvolgente',
         'backstory': dedent(f"""
-            Sei un insegnante esperto con anni di esperienza nell'insegnamento a studenti di {grade} presso scuole {school_type}.
-            Il tuo obiettivo è creare lezioni coinvolgenti e informative su {topic} utilizzando metodi di {teaching_method}.
+            Sei un insegnante esperto con anni di esperienza nell'insegnamento a studenti di {grade} presso {school_type}.
+            Il tuo obiettivo è creare lezioni coinvolgenti e informative su {topic} utilizzando il metodo di {teaching_method}.
         """)
     }
     
@@ -33,7 +33,7 @@ def create_agents(topic, grade, school_type, inclusion, frameworks, teaching_met
 
 def create_tasks(topic, grade, school_type, inclusion, frameworks, teaching_method):
     task1 = {
-        'description': f"Sviluppa una struttura di base per una lezione su {topic} per studenti di {grade} presso scuole {school_type}",
+        'description': f"Sviluppa una struttura di base per una lezione su {topic} per studenti di {grade} presso {school_type}",
         'agent': 0
     }
     
@@ -61,18 +61,18 @@ def main():
 
     topic = st.text_input("Inserisci l'argomento della lezione:")
     
-    grade = st.selectbox("Seleziona il grado scolastico:", ["Primaria", "Secondaria di primo grado", "Secondaria di secondo grado"])
+    grade = st.selectbox("Scegli il grado scolastico:", ["Secondaria di secondo grado", "Primaria", "Secondaria di primo grado"], index=0)
     
     if grade == "Secondaria di secondo grado":
-        school_type = st.selectbox("Seleziona il tipo di scuola secondaria:", ["Liceo scientifico", "Liceo classico"])
+        school_type = st.selectbox("Scegli il tipo di scuola secondaria:", ["Liceo scientifico", "Liceo classico"], index=0)
     else:
         school_type = grade
     
-    inclusion = st.multiselect("Inclusione:", ["Presenza di studenti con DSA (non attivo)", "Presenza di studenti DVA (non attivo)"], default=[])
+    inclusion = st.multiselect("Inclusione:", ["Classe senza DSA e DVA", "Presenza di studenti con DSA (non attivo)", "Presenza di studenti DVA (non attivo)", "Presenza di studenti con DSA e di studenti DVA (non attivo)"], default=["Classe senza DSA e DVA"])
     
-    frameworks = st.multiselect("Framework europei:", ["DigComp", "EntreComp", "LifeComp"], default=[])
+    frameworks = st.multiselect("Framework europei (opzionale):", ["DigComp", "EntreComp", "LifeComp"], default=[])
     
-    teaching_method = st.selectbox("Metodologia didattica:", ["Lezione frontale", "Flipped Classroom", "Learning by doing", "Inquiry Based Learning"])
+    teaching_method = st.selectbox("Metodologia didattica:", ["Lezione frontale", "Cooperative learning", "Peer tutoring", "Learning by doing", "Inquiry Based Learning"], index=0)
 
     if st.button("Pianifica Lezione"):
         if topic and grade and school_type and (inclusion or frameworks or teaching_method):
@@ -81,6 +81,8 @@ def main():
                 tasks = create_tasks(topic, grade, school_type, inclusion, frameworks, teaching_method)
                 
                 result = dedent(f"""
+                    Ecco una pianificazione per il seguente argomento:
+                    
                     Agenti:
                     - {agents[0]['role']}: {agents[0]['backstory']}
                     - {agents[1]['role']}: {agents[1]['backstory']}
@@ -94,7 +96,7 @@ def main():
                 """)
                 
                 st.success("Pianificazione completata!")
-                st.write(result)
+                st.write(result, unsafe_allow_html=True)
         else:
             st.warning("Per favore, compila tutti i campi obbligatori.")
 
