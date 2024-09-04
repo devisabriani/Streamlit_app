@@ -1,49 +1,88 @@
-import React, { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import streamlit as st
+from textwrap import dedent
 
-export default function StreamlitSimulation() {
-  const [topic, setTopic] = useState('');
-  const [grade, setGrade] = useState('');
-  const [result, setResult] = useState('');
-
-  const handlePlan = () => {
-    if (topic && grade) {
-      setResult('Pianificazione completata! Qui verrebbe mostrato il risultato della pianificazione.');
+def create_agents(topic, grade):
+    teacher = {
+        'role': 'Insegnante',
+        'goal': 'Pianificare una lezione efficace e coinvolgente',
+        'backstory': dedent(f"""
+            Sei un insegnante esperto con anni di esperienza nell'insegnamento a studenti di {grade}.
+            Il tuo obiettivo è creare lezioni coinvolgenti e informative su {topic}.
+        """)
     }
-  };
+    
+    curriculum_expert = {
+        'role': 'Esperto di Curriculum',
+        'goal': 'Assicurare che la lezione sia allineata con gli standard educativi',
+        'backstory': dedent(f"""
+            Sei un esperto di curriculum con una profonda conoscenza degli standard educativi per studenti di {grade}.
+            Il tuo compito è garantire che la lezione su {topic} soddisfi tutti i requisiti curriculari necessari.
+        """)
+    }
+    
+    creative_consultant = {
+        'role': 'Consulente Creativo',
+        'goal': 'Suggerire attività e approcci innovativi per la lezione',
+        'backstory': dedent(f"""
+            Sei un consulente creativo specializzato in metodi di insegnamento innovativi.
+            Il tuo obiettivo è proporre idee uniche e coinvolgenti per insegnare {topic} a studenti di {grade}.
+        """)
+    }
+    
+    return [teacher, curriculum_expert, creative_consultant]
 
-  return (
-    <div className="max-w-2xl mx-auto p-4 bg-gray-100 rounded-lg shadow">
-      <h1 className="text-2xl font-bold mb-4 text-center">Pianificatore di Lezioni con CrewAI</h1>
-      <Input
-        type="text"
-        placeholder="Inserisci l'argomento della lezione"
-        value={topic}
-        onChange={(e) => setTopic(e.target.value)}
-        className="mb-4"
-      />
-      <Select value={grade} onValueChange={setGrade}>
-        <SelectTrigger className="mb-4 w-full">
-          <SelectValue placeholder="Seleziona la classe" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="Elementari">Elementari</SelectItem>
-          <SelectItem value="Medie">Medie</SelectItem>
-          <SelectItem value="Superiori">Superiori</SelectItem>
-        </SelectContent>
-      </Select>
-      <Button onClick={handlePlan} className="w-full mb-4">
-        Pianifica Lezione
-      </Button>
-      {result && (
-        <Card>
-          <CardHeader>Risultato</CardHeader>
-          <CardContent>{result}</CardContent>
-        </Card>
-      )}
-    </div>
-  );
-}
+def create_tasks(topic, grade):
+    task1 = {
+        'description': f"Sviluppa una struttura di base per una lezione su {topic} per studenti di {grade}",
+        'agent': 0
+    }
+    
+    task2 = {
+        'description': f"Verifica che la struttura della lezione su {topic} sia conforme agli standard curricolari per {grade}",
+        'agent': 1
+    }
+    
+    task3 = {
+        'description': f"Proponi attività creative e coinvolgenti per insegnare {topic} a studenti di {grade}",
+        'agent': 2
+    }
+    
+    task4 = {
+        'description': "Integra il feedback e finalizza il piano di lezione",
+        'agent': 0
+    }
+    
+    return [task1, task2, task3, task4]
+
+def main():
+    st.title("Pianificatore di Lezioni con CrewAI")
+
+    topic = st.text_input("Inserisci l'argomento della lezione:")
+    grade = st.selectbox("Seleziona la classe:", ["Elementari", "Medie", "Superiori"])
+
+    if st.button("Pianifica Lezione"):
+        if topic and grade:
+            with st.spinner("Pianificazione in corso..."):
+                agents = create_agents(topic, grade)
+                tasks = create_tasks(topic, grade)
+                
+                result = dedent(f"""
+                    Agenti:
+                    - {agents[0]['role']}: {agents[0]['backstory']}
+                    - {agents[1]['role']}: {agents[1]['backstory']}
+                    - {agents[2]['role']}: {agents[2]['backstory']}
+                    
+                    Compiti:
+                    1. {tasks[0]['description']} (Assegnato a: {agents[tasks[0]['agent']]['role']})
+                    2. {tasks[1]['description']} (Assegnato a: {agents[tasks[1]['agent']]['role']})
+                    3. {tasks[2]['description']} (Assegnato a: {agents[tasks[2]['agent']]['role']})
+                    4. {tasks[3]['description']} (Assegnato a: {agents[tasks[3]['agent']]['role']})
+                """)
+                
+                st.success("Pianificazione completata!")
+                st.write(result)
+        else:
+            st.warning("Per favore, inserisci sia l'argomento che la classe.")
+
+if __name__ == "__main__":
+    main()
