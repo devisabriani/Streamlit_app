@@ -1,9 +1,11 @@
 import streamlit as st
 from crewai import Agent, Task, Crew
-def main():
-    st.set_page_config(page_title="EduCrew - by Devis Abriani")
-    st.title("EduCrew")
-    st.markdown("*by Devis Abriani*")
 
-if __name__ == "__main__":
-    main()
+# Verifica se l'ambiente è configurato correttamente
+try:
+    agent = Agent()  # Crea un agente CrewAI per testare l'importazione
+    print("CrewAI importato correttamente!")
+except ImportError as e:
+    st.error(f"Errore nell'importazione di CrewAI: {e}")
+
+# Resto del tuo codice
