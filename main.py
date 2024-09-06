@@ -1,4 +1,3 @@
-pip install crewai
 import streamlit as st
 from crewai import Agent, Task, Crew
 from textwrap import dedent
