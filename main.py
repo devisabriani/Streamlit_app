@@ -1,56 +1,79 @@
 import streamlit as st
+from crewai import Agent, Task, Crew
 from textwrap import dedent
+from langchain.llms import HuggingFacePipeline
+from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
+import torch
+
+# Configurazione del modello HuggingFace
+model_name = "LorenzoDeMattei/GePpeTto"
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+model = AutoModelForCausalLM.from_pretrained(model_name)
+
+# Creazione della pipeline
+pipe = pipeline(
+    "text-generation",
+    model=model,
+    tokenizer=tokenizer,
+    max_length=512
+)
+
+# Creazione dell'LLM per crewAI
+llm = HuggingFacePipeline(pipeline=pipe)
 
 def create_agents(topic, grade, school_type, inclusion, frameworks, teaching_method):
-    teacher = {
-        'role': 'Insegnante',
-        'goal': 'Pianificare una lezione efficace e coinvolgente',
-        'backstory': dedent(f"""
+    teacher = Agent(
+        role='Insegnante',
+        goal='Pianificare una lezione efficace e coinvolgente',
+        backstory=dedent(f"""
             Sei un insegnante esperto con anni di esperienza nell'insegnamento a studenti di {grade} presso {school_type}.
             Il tuo obiettivo è creare lezioni coinvolgenti e informative su {topic} utilizzando il metodo di {teaching_method}.
-        """)
-    }
+        """),
+        llm=llm
+    )
     
-    curriculum_expert = {
-        'role': 'Esperto di Curriculum',
-        'goal': 'Assicurare che la lezione sia allineata con gli standard educativi',
-        'backstory': dedent(f"""
+    curriculum_expert = Agent(
+        role='Esperto di Curriculum',
+        goal='Assicurare che la lezione sia allineata con gli standard educativi',
+        backstory=dedent(f"""
             Sei un esperto di curriculum con una profonda conoscenza degli standard educativi per studenti di {grade}.
             Il tuo compito è garantire che la lezione su {topic} soddisfi tutti i requisiti curriculari necessari, tenendo conto delle esigenze di inclusione degli studenti {inclusion}.
-        """)
-    }
+        """),
+        llm=llm
+    )
     
-    creative_consultant = {
-        'role': 'Consulente Creativo',
-        'goal': 'Suggerire attività e approcci innovativi per la lezione',
-        'backstory': dedent(f"""
+    creative_consultant = Agent(
+        role='Consulente Creativo',
+        goal='Suggerire attività e approcci innovativi per la lezione',
+        backstory=dedent(f"""
             Sei un consulente creativo specializzato in metodi di insegnamento innovativi, con particolare attenzione all'utilizzo dei framework europei {frameworks}.
             Il tuo obiettivo è proporre idee uniche e coinvolgenti per insegnare {topic} a studenti di {grade}.
-        """)
-    }
+        """),
+        llm=llm
+    )
     
     return [teacher, curriculum_expert, creative_consultant]
 
-def create_tasks(topic, grade, school_type, inclusion, frameworks, teaching_method):
-    task1 = {
-        'description': f"Sviluppa una struttura di base per una lezione su {topic} per studenti di {grade} presso {school_type}",
-        'agent': 0
-    }
+def create_tasks(topic, grade, school_type, inclusion, frameworks, teaching_method, agents):
+    task1 = Task(
+        description=f"Sviluppa una struttura di base per una lezione su {topic} per studenti di {grade} presso {school_type}",
+        agent=agents[0]
+    )
     
-    task2 = {
-        'description': f"Verifica che la struttura della lezione su {topic} sia conforme agli standard curricolari per {grade}, tenendo conto delle esigenze di inclusione degli studenti {inclusion}",
-        'agent': 1
-    }
+    task2 = Task(
+        description=f"Verifica che la struttura della lezione su {topic} sia conforme agli standard curricolari per {grade}, tenendo conto delle esigenze di inclusione degli studenti {inclusion}",
+        agent=agents[1]
+    )
     
-    task3 = {
-        'description': f"Proponi attività creative e coinvolgenti per insegnare {topic} a studenti di {grade}, sfruttando i framework europei {frameworks} e il metodo di {teaching_method}",
-        'agent': 2
-    }
+    task3 = Task(
+        description=f"Proponi attività creative e coinvolgenti per insegnare {topic} a studenti di {grade}, sfruttando i framework europei {frameworks} e il metodo di {teaching_method}",
+        agent=agents[2]
+    )
     
-    task4 = {
-        'description': "Integra il feedback e finalizza il piano di lezione",
-        'agent': 0
-    }
+    task4 = Task(
+        description="Integra il feedback e finalizza il piano di lezione",
+        agent=agents[0]
+    )
     
     return [task1, task2, task3, task4]
 
@@ -78,25 +101,19 @@ def main():
         if topic and grade and school_type and (inclusion or frameworks or teaching_method):
             with st.spinner("Pianificazione in corso..."):
                 agents = create_agents(topic, grade, school_type, inclusion, frameworks, teaching_method)
-                tasks = create_tasks(topic, grade, school_type, inclusion, frameworks, teaching_method)
+                tasks = create_tasks(topic, grade, school_type, inclusion, frameworks, teaching_method, agents)
                 
-                result = dedent(f"""
-                    Ecco una pianificazione per il seguente argomento:
-                    
-                    Agenti:
-                    - {agents[0]['role']}: {agents[0]['backstory']}
-                    - {agents[1]['role']}: {agents[1]['backstory']}
-                    - {agents[2]['role']}: {agents[2]['backstory']}
-                    
-                    Compiti:
-                    1. {tasks[0]['description']} (Assegnato a: {agents[tasks[0]['agent']]['role']})
-                    2. {tasks[1]['description']} (Assegnato a: {agents[tasks[1]['agent']]['role']})
-                    3. {tasks[2]['description']} (Assegnato a: {agents[tasks[2]['agent']]['role']})
-                    4. {tasks[3]['description']} (Assegnato a: {agents[tasks[3]['agent']]['role']})
-                """)
+                crew = Crew(
+                    agents=agents,
+                    tasks=tasks,
+                    verbose=2
+                )
+                
+                result = crew.kickoff()
                 
                 st.success("Pianificazione completata!")
-                st.write(result, unsafe_allow_html=True)
+                st.write("Ecco una pianificazione per il seguente argomento:", unsafe_allow_html=True)
+                st.write(result)
         else:
             st.warning("Per favore, compila tutti i campi obbligatori.")
 
