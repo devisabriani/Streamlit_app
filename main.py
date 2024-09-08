@@ -63,6 +63,7 @@ crew = Crew(
 if st.button("Pianifica Lezione"):
     with st.spinner("Pianificazione in corso..."):
         result = crew.kickoff(inputs={"topic": argomento, "class": classe})
+        print(result)
         lines = result.raw.splitlines()
         lines = lines[2:-2]
         result_cleaned = "\n".join(lines)
