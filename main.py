@@ -10,9 +10,9 @@ st.markdown("*by Devis Abriani*")
 classe = st.text_input("Inserisci la classe:")
 argomento = st.text_input("Inserisci l'argomento della lezione:")
 
-
-
-openai_api_key = os.getenv('OPENAI_API_KEY')
+openai_api_key = st.secrets["openai_api_key"]
+#openai.api_key = st.secrets["openai_api_key"]
+#openai_api_key = os.getenv('OPENAI_API_KEY')
 
 #if openai_api_key == "abc":
 #    result = "Nessuna chiave OpenAI disponibile"
