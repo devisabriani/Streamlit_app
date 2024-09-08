@@ -64,11 +64,12 @@ if st.button("Pianifica Lezione"):
     with st.spinner("Pianificazione in corso..."):
         result = crew.kickoff(inputs={"topic": argomento, "class": classe})
         st.write(result)
-        lines = result.raw.splitlines()
-        lines = lines[2:-2]
-        result_cleaned = "\n".join(lines)
-        st.success("Pianificazione completata!")
-        st.markdown(result_cleaned, unsafe_allow_html=True)
+        
+        #lines = result.raw.splitlines()
+        #lines = lines[2:-2]
+        #result_cleaned = "\n".join(lines)
+        #st.success("Pianificazione completata!")
+        #st.markdown(result_cleaned, unsafe_allow_html=True)
 
 
 
