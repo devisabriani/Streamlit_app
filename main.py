@@ -1,12 +1,10 @@
 import streamlit as st
 #import os
 from crewai import Agent, Task, Crew
-from crewai_tools import FileReadTool
+from crewai_tools import (FileReadTool)
 #from langchain.llms import OpenAI
 from dotenv import load_dotenv
 load_dotenv()
-
-file_tool = FileReadTool()
 
 st.title("EduCrew")
 st.markdown("*by Devis Abriani*")
