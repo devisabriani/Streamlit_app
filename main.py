@@ -11,13 +11,5 @@ openai_api_key = st.secrets["OPENAI_API_KEY"]
 
 #openai_api_key = "abc"
 
-st.write("")
+st.write(""Spiacente, attualmente il progetto è in fase di ampliamento e non è operativo."")
 
-STEM_expert = Agent(
-    role="Pianificatore di lezioni di matematica",
-    goal="Pianificare lezioni di matematica interessanti per una {class} di un liceo scientifico italiano riguardo {topic}",
-    backstory="Sei un esperto in didattica STEM per le scuole italiane."
-                "Conosci molto bene le connessioni fra la fisica e la matematica insegnate al liceo.",
-    allow_delegation=False,
-  	verbose=True
-)
