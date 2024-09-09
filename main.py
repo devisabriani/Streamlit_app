@@ -1,6 +1,7 @@
 import os
 from crewai import Agent
 from langchain.llms import OpenAI
+import streamlit as st
 
 
 openai_api_key = st.secrets["OPENAI_API_KEY"]
