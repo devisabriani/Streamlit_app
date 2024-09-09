@@ -17,6 +17,8 @@ openai_api_key = st.secrets["OPENAI_API_KEY"]
 
 st.write("Sito web in fase di ampliamento. Non operativo.")
 
+read_tool = FileReadTool()
+
 wow = Agent(
   role="Batman",
   goal="Sconfiggere il crimine",
@@ -31,7 +33,8 @@ STEM_expert = Agent(
     backstory="Sei un esperto in didattica STEM per le scuole italiane."
                 "Conosci molto bene le connessioni fra la fisica e la matematica insegnate al liceo.",
     allow_delegation=False,
-  	verbose=True
+  	verbose=True,
+    tools=[read_tool]
 )
 
 DigComp_expert = Agent(
