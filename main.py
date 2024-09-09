@@ -27,3 +27,11 @@ STEM_expert = Agent(
     allow_delegation=False,
   	verbose=True
 )
+
+DigComp_expert = Agent(
+    role="Esperto del framework europeo DigComp",
+    goal="Revisionare la pianificazione dello STEM_expert in modo da aggiungere elementi dal DigComp.",
+    backstory="Sei un esperto di DigComp e DigCompEdu.",
+    allow_delegation=False,
+    verbose=True
+)
