@@ -21,7 +21,8 @@ wow = Agent(
   role="Batman",
   goal="Sconfiggere il crimine",
   backstory="Sono Batman!",
-  verbose=True
+  verbose=True,
+  tools=[]
 )
 
 
