@@ -35,3 +35,34 @@ DigComp_expert = Agent(
     allow_delegation=False,
     verbose=True
 )
+
+lesson = Task(
+    description=(
+        "Scrivi la pianificazione di una lezione di 50 minuti"
+        "per una {class} di un liceo scientifico italiano riguardo {topic}"
+    ),
+    expected_output="Un documento in formato markdown con una pianificazione completa della lezione.",
+    agent=STEM_expert,
+)
+
+digcomp = Task(
+    description=("Revisiona la pianificazione realizzata dallo STEM_expert"
+                 "in modo da aggiungere elementi dal DigComp."),
+    expected_output="Una pianificazione ben scritta in formato markdown",
+    agent=DigComp_expert,
+)
+
+crew = Crew(
+    agents=[STEM_expert],
+    tasks=[lesson],
+    verbose=True
+)
+
+if st.button("Pianifica Lezione"):
+
+    if openai_api_key == "abc":
+        st.write("Spiacente, attualmente il progetto è in fase di ampliamento e non è operativo.")
+    else:
+        with st.spinner("Pianificazione in corso..."):
+            result = crew.kickoff(inputs={"topic": argomento, "class": classe})
+            st.write(result)
