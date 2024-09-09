@@ -1,2 +1,2 @@
-crewai
-crewai-tools
+crewai>="0.55"
+crewai_tools>="0.12.0"
