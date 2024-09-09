@@ -1,7 +1,7 @@
 import streamlit as st
 #import os
 from crewai import Agent, Task, Crew
-from crewai_tools import (FileReadTool)
+from crewai_tools import *
 #from langchain.llms import OpenAI
 from dotenv import load_dotenv
 load_dotenv()
