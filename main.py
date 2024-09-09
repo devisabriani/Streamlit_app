@@ -11,5 +11,5 @@ openai_api_key = st.secrets["OPENAI_API_KEY"]
 
 #openai_api_key = "abc"
 
-st.write(""Spiacente, attualmente il progetto è in fase di ampliamento e non è operativo."")
+st.write("Spiacente, attualmente il progetto è in fase di ampliamento e non è operativo.")
 
