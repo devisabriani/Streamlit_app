@@ -24,6 +24,7 @@ STEM_expert = Agent(
     backstory="Sei un esperto in didattica STEM per le scuole italiane."
                 "Conosci molto bene le connessioni fra la fisica e la matematica insegnate al liceo.",
     allow_delegation=False,
+    llm=llm,
   	verbose=True
 )
 
