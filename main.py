@@ -20,7 +20,8 @@ st.write("Sito web in fase di ampliamento. Non operativo.")
 wow = Agent(
   role="Batman",
   goal="Sconfiggere il crimine",
-  backstory="Sono Batman!"
+  backstory="Sono Batman!",
+  verbose=True
 )
 
 
