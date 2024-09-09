@@ -15,7 +15,7 @@ argomento = st.text_input("Inserisci l'argomento della lezione:")
 
 openai_api_key = "abc"
 
-st.write("Sito web in fase di ampliamento. Non operativo.")
+#st.write("Sito web in fase di ampliamento. Non operativo.")
 
 read_tool = FileReadTool()
 
