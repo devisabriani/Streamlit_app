@@ -17,4 +17,10 @@ openai_api_key = st.secrets["OPENAI_API_KEY"]
 
 st.write("Sito web in fase di ampliamento. Non operativo.")
 
+wow = Agent(
+  role="Batman",
+  goal="Sconfiggere il crimine",
+  backstory="Sono Batman!"
+)
+
 
