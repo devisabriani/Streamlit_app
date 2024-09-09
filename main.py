@@ -65,11 +65,10 @@ crew = Crew(
 )
 
 if st.button("Pianifica Lezione"):
-
     if openai_api_key == "abc":
         st.write("Spiacente, attualmente il progetto è in fase di ampliamento e non è operativo.")
     else:
         with st.spinner("Pianificazione in corso..."):
-            result = crew.kickoff({"topic": argomento, "class": classe})
+            result = crew.kickoff(inputs={"topic": argomento, "class": classe})
             st.write(result)
 
