@@ -1,5 +1,6 @@
 import streamlit as st
 from crewai import Agent, Task, Crew
+from crewai-tools import FileReadTool
 
 st.title("EduCrew")
 st.markdown("*by Devis Abriani*")
