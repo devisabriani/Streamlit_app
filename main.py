@@ -15,4 +15,4 @@ openai_api_key = st.secrets["OPENAI_API_KEY"]
 
 #openai_api_key = "abc"
 
-st.write(crewai.__version__)
+st.write("Ciao")
