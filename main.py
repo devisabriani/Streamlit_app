@@ -1,15 +1,17 @@
+import streamlit as st
 import os
 from crewai import Agent
 from langchain.llms import OpenAI
-import streamlit as st
 
-
+# Ottieni la chiave API dai secrets di Streamlit
 openai_api_key = st.secrets["OPENAI_API_KEY"]
 
-# Definisci il modello LLM
+os.environ["OPENAI_API_KEY"] = openai_api_key
+
+# Definisci il modello LLM con la chiave API corretta
 llm = OpenAI(temperature=0.7)
 
-# Crea un agente CrewAI
+# Crea l'agente
 STEM_expert = Agent(
     role="Esperto STEM",
     goal="Rispondere a domande complesse in ambito scientifico",
@@ -17,4 +19,4 @@ STEM_expert = Agent(
     verbose=True
 )
 
-print("Agente configurato correttamente")
+st.write("Agente configurato correttamente!")
