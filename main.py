@@ -1,5 +1,5 @@
 import streamlit as st
-from crewai import Agent, Task, Crew
+import crewai
 from crewai_tools import *
 
 st.title("EduCrew")
