@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 load_dotenv()
 import os
 import streamlit as st
+from crewai_tools import *
 
 st.title("EduCrew")
 st.markdown("*by Devis Abriani*")
