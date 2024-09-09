@@ -14,3 +14,5 @@ openai_api_key = st.secrets["OPENAI_API_KEY"]
 
 #openai_api_key = "abc"
 
+st.write("Sito web in fase di ampliamento. Non operativo.")
+
