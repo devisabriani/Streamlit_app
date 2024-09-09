@@ -1,5 +1,5 @@
 crewai
-crewai_tools==0.11.0
+crewai_tools==0.12.0
 chroma==0.2.0
 pysqlite3-binary==0.5.3
 pip==24.2
