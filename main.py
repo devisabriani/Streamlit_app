@@ -1,6 +1,8 @@
-import streamlit as st
 from crewai import Agent, Task, Crew
-#from crewai_tools import *
+from dotenv import load_dotenv
+load_dotenv()
+import os
+import streamlit as st
 
 st.title("EduCrew")
 st.markdown("*by Devis Abriani*")
@@ -12,7 +14,7 @@ openai_api_key = st.secrets["OPENAI_API_KEY"]
 
 #openai_api_key = "abc"
 
-st.write("Spiacente, attualmente il progetto è in fase di ampliamento e non è operativo.")
+
 
 STEM_expert = Agent(
     role="Pianificatore di lezioni di matematica",
