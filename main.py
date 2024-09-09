@@ -1,9 +1,7 @@
 import streamlit as st
 #import os
 from crewai import Agent, Task, Crew
-from crewai_tools import (
-    FileReadTool
-)
+from crewai_tools import FileReadTool
 #from langchain.llms import OpenAI
 from dotenv import load_dotenv
 load_dotenv()
@@ -22,9 +20,3 @@ openai_api_key = st.secrets["OPENAI_API_KEY"]
 #llm = OpenAI(temperature=0.7)
 
 #openai_api_key = "abc"
-
-STEM_expert = Agent(
-    role="Boh",
-    goal="Mah",
-    backstory="What"
-)
