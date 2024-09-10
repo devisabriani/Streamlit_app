@@ -17,19 +17,9 @@ openai_api_key = "abc"
 
 #st.write("Sito web in fase di ampliamento. Non operativo.")
 
-read_tool = FileReadTool()
+pdf_reader = FileReadTool()
 
 uploaded_file = st.file_uploader("Linee-guida-Educazione-civica.pdf", type=["pdf"])
-
-
-
-wow = Agent(
-  role="Batman",
-  goal="Sconfiggere il crimine",
-  backstory="Sono Batman!",
-  verbose=True,
-  tools=[]
-)
 
 STEM_expert = Agent(
     role="Pianificatore di lezioni di matematica",
@@ -38,8 +28,10 @@ STEM_expert = Agent(
                 "Conosci molto bene le connessioni fra la fisica e la matematica insegnate al liceo.",
     allow_delegation=False,
   	verbose=True,
-    tools=[read_tool]
+    tools=[pdf_reader]
 )
+
+pdf_path = "resources/Linee-guida-Educazione-civica.pdf"
 
 DigComp_expert = Agent(
     role="Esperto del framework europeo DigComp",
