@@ -19,6 +19,10 @@ openai_api_key = "abc"
 
 read_tool = FileReadTool()
 
+uploaded_file = st.file_uploader("Linee-guida-Educazione-civica.pdf", type=["pdf"])
+
+
+
 wow = Agent(
   role="Batman",
   goal="Sconfiggere il crimine",
