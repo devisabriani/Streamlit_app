@@ -19,8 +19,6 @@ openai_api_key = "abc"
 
 pdf_reader = FileReadTool()
 
-uploaded_file = st.file_uploader("Linee-guida-Educazione-civica.pdf", type=["pdf"])
-
 STEM_expert = Agent(
     role="Pianificatore di lezioni di matematica",
     goal="Pianificare lezioni di matematica interessanti per una {class} di un liceo scientifico italiano riguardo {topic}",
