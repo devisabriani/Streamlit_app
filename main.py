@@ -22,9 +22,7 @@ pdf_reader = FileReadTool()
 STEM_expert = Agent(
     role="Pianificatore di lezioni di matematica e di educazione civica",
     goal="Pianificare lezioni di matematica e di educazione civica interessanti per una {class} di un liceo scientifico italiano riguardo {topic}",
-    backstory="Sei un esperto in didattica STEM per le scuole italiane.
-                Conosci molto bene le connessioni fra la fisica e la matematica insegnate al liceo.
-                Conosci bene le nuove linee guida per l'educazione civica, delle quali hai accesso al file.",
+    backstory="Sei un esperto in didattica STEM per le scuole italiane. Conosci molto bene le connessioni fra la fisica e la matematica insegnate al liceo. Conosci bene le nuove linee guida per l'educazione civica, delle quali hai accesso al file.",
     allow_delegation=False,
   	verbose=True,
     tools=[pdf_reader]
