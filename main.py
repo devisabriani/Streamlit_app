@@ -20,10 +20,11 @@ openai_api_key = "abc"
 pdf_reader = FileReadTool()
 
 STEM_expert = Agent(
-    role="Pianificatore di lezioni di matematica",
-    goal="Pianificare lezioni di matematica interessanti per una {class} di un liceo scientifico italiano riguardo {topic}",
+    role="Pianificatore di lezioni di matematica e di educazione civica",
+    goal="Pianificare lezioni di matematica e di educazione civica interessanti per una {class} di un liceo scientifico italiano riguardo {topic}",
     backstory="Sei un esperto in didattica STEM per le scuole italiane."
-                "Conosci molto bene le connessioni fra la fisica e la matematica insegnate al liceo.",
+                "Conosci molto bene le connessioni fra la fisica e la matematica insegnate al liceo.
+                Conosci bene le nuove linee guida per l'educazione civica, delle quali hai accesso al file.",
     allow_delegation=False,
   	verbose=True,
     tools=[pdf_reader]
@@ -39,12 +40,23 @@ DigComp_expert = Agent(
     verbose=True
 )
 
+
+read_pdf_task = Task(
+    description="Leggi il file PDF e fornisci un riassunto delle informazioni principali.",
+    expected_output="Un riassunto delle informazioni contenute nel PDF.",
+    tools=[pdf_reader],
+    agent=STEM_expert
+)
+
+
+
 lesson = Task(
     description=(
-        "Scrivi la pianificazione di una lezione di 50 minuti"
+        "Scrivi la pianificazione di una lezione di 50 minuti nella quale inserisci elementi di educazione civica secondo le nuove linee guida"
         "per una {class} di un liceo scientifico italiano riguardo {topic}"
     ),
     expected_output="Un documento in formato markdown con una pianificazione completa della lezione.",
+    tools=[pdf_reader],
     agent=STEM_expert,
 )
 
