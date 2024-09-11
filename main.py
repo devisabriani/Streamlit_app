@@ -7,7 +7,15 @@ from crewai_tools import FileReadTool
 
 st.set_page_config(layout="wide", page_title="EduCrew - by Devis Abriani")
 
-#st.set_page_config(page_title="EduCrew - by Devis Abriani")
+col1, col2 = st.columns([1, 2])
+
+with col1:
+    st.button("Colonna 1")
+
+with col2:
+    st.button("Colonna 2")
+
+
 st.title("EduCrew")
 st.markdown("*by Devis Abriani*")
 
