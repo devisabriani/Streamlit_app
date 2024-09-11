@@ -99,8 +99,8 @@ with col1:
 
 
 with col2:
-    openai_api_key = "abc"
-    #openai_api_key = st.secrets["OPENAI_API_KEY"]
+    #openai_api_key = "abc"
+    openai_api_key = st.secrets["OPENAI_API_KEY"]
 
     if st.button("Pianifica Lezione"):
         if openai_api_key == "abc":
@@ -109,7 +109,6 @@ with col2:
             with st.spinner("Pianificazione in corso..."):
                 result = crew.kickoff(inputs={"topic": argomento, "class": classe})
                 st.write(result)
-        st.button("Colonna 2")
 
 
 
