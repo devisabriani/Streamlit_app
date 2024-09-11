@@ -99,8 +99,8 @@ with col1:
 
 
 with col2:
-    #openai_api_key = "abc"
-    openai_api_key = st.secrets["OPENAI_API_KEY"]
+    openai_api_key = "abc"
+    #openai_api_key = st.secrets["OPENAI_API_KEY"]
 
     if st.button("Pianifica Lezione"):
         if openai_api_key == "abc":
