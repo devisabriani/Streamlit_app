@@ -11,6 +11,21 @@ st.markdown("*by Devis Abriani*")
 
 grado = st.selectbox("Scegli il grado scolastico:", [ "Primaria", "Secondaria di primo grado", "Secondaria di secondo grado"], index=2)
 
+if grado == "Secondaria di secondo grado":
+        tipo_scuola = st.selectbox("Scegli il tipo di scuola:", [
+            "Liceo artistico",
+            "Liceo classico",
+            "Liceo linguistico",
+            "Liceo musicale e coreutico",
+            "Liceo scientifico",
+            "Liceo scientifico – opzione Scienze applicate",
+            "Liceo scientifico – sezione a indirizzo sportivo",
+            "Liceo scienze umane",
+            "Liceo scienze umane – opzione economico sociale",
+            "Liceo del Made in Italy"], index=4)
+    else:
+        tipo_scuola = grado
+
 classe = st.text_input("Inserisci la classe:")
 argomento = st.text_input("Inserisci l'argomento della lezione:")
 
