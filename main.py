@@ -26,7 +26,7 @@ if grado == "Secondaria di secondo grado":
 else:
         tipo_scuola = grado
 
-inclusione = st.multiselect("Inclusione:", [
+inclusione = st.selectbox("Inclusione:", [
         "Classe senza DSA e DVA",
         "Presenza di studenti con DSA (non attivo)",
         "Presenza di studenti DVA (non attivo)",
