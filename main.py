@@ -26,11 +26,17 @@ if grado == "Secondaria di secondo grado":
 else:
         tipo_scuola = grado
 
+metodologia = st.selectbox("Metodologia didattica:", ["Lezione frontale", "Cooperative learning", "Peer tutoring", "Learning by doing", "Inquiry Based Learning"], index=0)
+
 inclusione = st.selectbox("Inclusione:", [
         "Classe senza DSA e DVA",
         "Presenza di studenti con DSA (non attivo)",
         "Presenza di studenti DVA (non attivo)",
         "Presenza di studenti con DSA e di studenti DVA (non attivo)"], index=0)
+
+civica = st.checkbox("Lezione di educazione civica")
+
+orientamento = st.checkbox("Lezione di orientamento")
 
 framework = st.multiselect("Framework europei (opzionale):", ["DigComp", "EntreComp", "LifeComp"], default=[])
 
