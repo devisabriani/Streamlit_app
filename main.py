@@ -5,8 +5,11 @@ import os
 import streamlit as st
 from crewai_tools import FileReadTool
 
+st.set_page_config(page_title="EduCrew - by Devis Abriani")
 st.title("EduCrew")
 st.markdown("*by Devis Abriani*")
+
+grado = st.selectbox("Scegli il grado scolastico:", [ "Primaria", "Secondaria di primo grado", "Secondaria di secondo grado"], index=2)
 
 classe = st.text_input("Inserisci la classe:")
 argomento = st.text_input("Inserisci l'argomento della lezione:")
