@@ -7,21 +7,15 @@ from crewai_tools import FileReadTool
 
 st.set_page_config(layout="wide", page_title="EduCrew - by Devis Abriani")
 
+st.title("EduCrew")
+st.markdown("*by Devis Abriani*")
+
 col1, col2 = st.columns([1, 2])
 
 with col1:
     st.button("Colonna 1")
-
-with col2:
-    st.button("Colonna 2")
-
-
-st.title("EduCrew")
-st.markdown("*by Devis Abriani*")
-
-grado = st.selectbox("Scegli il grado scolastico:", [ "Primaria", "Secondaria di primo grado", "Secondaria di secondo grado"], index=2)
-
-if grado == "Secondaria di secondo grado":
+    grado = st.selectbox("Scegli il grado scolastico:", [ "Primaria", "Secondaria di primo grado", "Secondaria di secondo grado"], index=2)
+    if grado == "Secondaria di secondo grado":
         tipo_scuola = st.selectbox("Scegli il tipo di scuola:", [
             "Liceo artistico",
             "Liceo classico",
@@ -33,8 +27,18 @@ if grado == "Secondaria di secondo grado":
             "Liceo scienze umane",
             "Liceo scienze umane – opzione economico sociale",
             "Liceo del Made in Italy"], index=4)
-else:
+    else:
         tipo_scuola = grado
+
+with col2:
+    st.button("Colonna 2")
+
+
+
+
+
+
+
 
 metodologia = st.selectbox("Metodologia didattica:", ["Lezione frontale", "Cooperative learning", "Peer tutoring", "Learning by doing", "Inquiry Based Learning"], index=0)
 
