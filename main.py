@@ -5,7 +5,7 @@ import os
 import streamlit as st
 from crewai_tools import FileReadTool
 
-st.set_page_config(page_title="EduCrew - by Devis Abriani")
+#st.set_page_config(page_title="EduCrew - by Devis Abriani")
 st.title("EduCrew")
 st.markdown("*by Devis Abriani*")
 
