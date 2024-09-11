@@ -32,6 +32,8 @@ inclusione = st.selectbox("Inclusione:", [
         "Presenza di studenti DVA (non attivo)",
         "Presenza di studenti con DSA e di studenti DVA (non attivo)"], index=0)
 
+framework = st.multiselect("Framework europei (opzionale):", ["DigComp", "EntreComp", "LifeComp"], default=[])
+
 classe = st.text_input("Inserisci la classe:")
 argomento = st.text_input("Inserisci l'argomento della lezione:")
 
