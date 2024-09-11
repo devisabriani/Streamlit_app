@@ -26,6 +26,12 @@ if grado == "Secondaria di secondo grado":
 else:
         tipo_scuola = grado
 
+ inclusione = st.multiselect("Inclusione:", [
+         "Classe senza DSA e DVA",
+         "Presenza di studenti con DSA (non attivo)",
+         "Presenza di studenti DVA (non attivo)",
+         "Presenza di studenti con DSA e di studenti DVA (non attivo)"], default=["Classe senza DSA e DVA"])
+
 classe = st.text_input("Inserisci la classe:")
 argomento = st.text_input("Inserisci l'argomento della lezione:")
 
