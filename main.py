@@ -23,7 +23,7 @@ if grado == "Secondaria di secondo grado":
             "Liceo scienze umane",
             "Liceo scienze umane – opzione economico sociale",
             "Liceo del Made in Italy"], index=4)
-    else:
+else:
         tipo_scuola = grado
 
 classe = st.text_input("Inserisci la classe:")
