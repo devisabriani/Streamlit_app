@@ -106,7 +106,23 @@ crew = Crew(
 #openai_api_key = "abc"
 openai_api_key = st.secrets["OPENAI_API_KEY"]
 
-# Cattura output verbose degli agenti
+import streamlit as st
+import base64
+import time
+import io
+import sys
+
+# Funzione per convertire l'immagine in base64 per renderla utilizzabile da HTML
+def get_base64_image(image_path):
+    with open(image_path, "rb") as img_file:
+        return base64.b64encode(img_file.read()).decode()
+
+# Funzione che simula la chiamata API
+def crewai_request():
+    time.sleep(10)  # Simula un'operazione che richiede tempo
+    return "Testo generato da CrewAI"
+
+# Funzione per catturare i pensieri degli agenti in tempo reale
 def run_agent_with_verbose(agent, task_input):
     old_stdout = sys.stdout  # Memorizza il vecchio stdout
     new_stdout = io.StringIO()  # Nuovo buffer per catturare l'output
@@ -119,21 +135,6 @@ def run_agent_with_verbose(agent, task_input):
 
     return result, verbose_output
 
-
-
-
-
-# Funzione per convertire l'immagine in base64 per renderla utilizzabile da HTML
-def get_base64_image(image_path):
-    with open(image_path, "rb") as img_file:
-        return base64.b64encode(img_file.read()).decode()
-
-
-# Funzione che simula la chiamata API
-def crewai_request():
-    time.sleep(10)  # Simula un'operazione che richiede tempo
-    return "Testo generato da CrewAI"
-
 # Caricamento delle immagini in base64 per essere usate nel componente HTML
 image1 = get_base64_image("AI1.jpeg")
 image2 = get_base64_image("AI2.jpeg")
@@ -142,7 +143,7 @@ image4 = get_base64_image("AI4.jpeg")
 
 # Codice HTML e JS con immagini convertite in base64
 image_slider_html = f"""
-<div style="text-align: center;">
+<div style="text-align: center; display: inline-block; vertical-align: top;">
     <img id="slider" src="data:image/jpeg;base64,{image1}" alt="Loading" width="300">
 </div>
 <script type="text/javascript">
@@ -165,27 +166,53 @@ image_slider_html = f"""
 </script>
 """
 
+# Simula la classe "agent" per eseguire e raccogliere pensieri
+class MockAgent:
+    def run(self, task_input):
+        # Simuliamo un processo con output progressivo
+        for i in range(10):
+            print(f"Pensiero {i + 1}: L'agente sta pensando al task '{task_input}'...")
+            time.sleep(1)  # Simula tempo di elaborazione
+        return f"Risultato finale per il task '{task_input}'"
+
+# Inizializza l'agente fittizio
+researcher = MockAgent()
+
+# Input da utente per l'argomento di ricerca
+task_input = st.text_input("Inserisci il topic di ricerca", "AI Development")
+
 if st.button("Pianifica Lezione"):
     if openai_api_key == "abc":
         st.write("Spiacente, attualmente il progetto è in fase di ampliamento e non è operativo.")
     else:
-        # Crea un placeholder per il contenuto dinamico
-        placeholder = st.empty()
+        # Crea due segnaposto, uno per le immagini e uno per i pensieri degli agenti
+        slider_placeholder = st.empty()  # Per lo slider delle immagini
+        thoughts_placeholder = st.empty()  # Per i pensieri aggiornati in tempo reale
 
-        # Mostra lo slider delle immagini all'interno del placeholder
-        with placeholder:
+        # Mostra lo slider delle immagini all'interno del segnaposto
+        with slider_placeholder:
             st.components.v1.html(image_slider_html, height=350)
 
-        # Simula una richiesta all'API CrewAI (o chiama la tua vera API qui)
-        final_result = crew.kickoff(inputs={"topic": argomento, "class": classe})
-        result, verbose_output = run_agent_with_verbose(STEM_expert, lesson)
-        st.text(verbose_output)
+        # Inizia l'aggiornamento dei pensieri in tempo reale
+        verbose_log = ""
+        result = ""
+        for i in range(10):  # Simula una esecuzione passo passo
+            new_thought = f"Pensiero {i + 1}: L'agente sta pensando al task '{task_input}'..."
+            verbose_log += new_thought + "\n"
+            
+            # Aggiorna la visualizzazione dei pensieri
+            thoughts_placeholder.text(verbose_log)
 
-        # Una volta ottenuta la risposta, aggiorna il contenuto e ferma l'animazione
-        placeholder.empty()  # Svuota il placeholder per rimuovere lo slider
-        st.write(final_result)  # Mostra il risultato della richiesta API
+            time.sleep(1)  # Simula un ritardo tra i pensieri
 
-        # Aggiungi uno script per fermare lo slider dopo aver ricevuto la risposta
+        # Una volta terminato, fermiamo lo slider e mostriamo il risultato
+        result = f"Risultato finale per il task '{task_input}'"
+        slider_placeholder.empty()  # Rimuove lo slider delle immagini
+
+        # Mostra il risultato finale
+        st.write(result)
+
+        # Aggiungi uno script per fermare lo slider
         st.components.v1.html("""
         <script type="text/javascript">
             stopSlider();  // Chiama la funzione per fermare lo slider
