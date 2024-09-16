@@ -146,13 +146,14 @@ if st.button("Pianifica Lezione"):
     if openai_api_key == "abc":
         st.write("Spiacente, attualmente il progetto è in fase di ampliamento e non è operativo.")
     else:
-        final_result = crew.kickoff(inputs={"topic": argomento, "class": classe})
         # Crea un placeholder per il contenuto dinamico
         placeholder = st.empty()
 
         # Mostra lo slider delle immagini all'interno del placeholder
         with placeholder:
             st.components.v1.html(image_slider_html, height=350)
+
+        final_result = crew.kickoff(inputs={"topic": argomento, "class": classe})
 
         # Una volta ottenuta la risposta, aggiorna il contenuto e ferma l'animazione
         placeholder.empty()  # Svuota il placeholder per rimuovere lo slider
