@@ -109,6 +109,11 @@ def get_base64_image(image_path):
     with open(image_path, "rb") as img_file:
         return base64.b64encode(img_file.read()).decode()
 
+# Funzione che simula la chiamata API
+def crewai_request():
+    time.sleep(10)  # Simula un'operazione che richiede tempo
+    return "Testo generato da CrewAI"
+
 # Caricamento delle immagini in base64 per essere usate nel componente HTML
 image1 = get_base64_image("AI1.jpeg")
 image2 = get_base64_image("AI2.jpeg")
@@ -128,31 +133,39 @@ image_slider_html = f"""
         "data:image/jpeg;base64,{image3}",
         "data:image/jpeg;base64,{image4}"
     ];
-    setInterval(function() {{
+    var interval = setInterval(function() {{
         document.getElementById("slider").src = images[currentIndex];
         currentIndex = (currentIndex + 1) % images.length;
-    }}, 1000);  // Cambia immagine ogni secondo
+    }}, 1000);
+
+    // Funzione per fermare l'animazione
+    function stopSlider() {{
+        clearInterval(interval);
+    }}
 </script>
 """
-
 
 if st.button("Pianifica Lezione"):
     if openai_api_key == "abc":
         st.write("Spiacente, attualmente il progetto è in fase di ampliamento e non è operativo.")
     else:
-        with st.spinner(""):
+        # Crea un placeholder per il contenuto dinamico
+        placeholder = st.empty()
+
+        # Mostra lo slider delle immagini all'interno del placeholder
+        with placeholder:
             st.components.v1.html(image_slider_html, height=350)
-            result = crew.kickoff(inputs={"topic": argomento, "class": classe})
-            st.write(result)
-    
 
-#with st.spinner("Pianificazione in corso..."):
-#            result = crew.kickoff(inputs={"topic": argomento, "class": classe})
-#            st.write(result)
+        # Simula una richiesta all'API CrewAI (o chiama la tua vera API qui)
+        result = crewai_request()
 
+        # Una volta ottenuta la risposta, aggiorna il contenuto e ferma l'animazione
+        placeholder.empty()  # Svuota il placeholder per rimuovere lo slider
+        st.write(result)  # Mostra il risultato della richiesta API
 
-
-
-
-
-
+        # Aggiungi uno script per fermare lo slider dopo aver ricevuto la risposta
+        st.components.v1.html("""
+        <script type="text/javascript">
+            stopSlider();  // Chiama la funzione per fermare lo slider
+        </script>
+        """)
