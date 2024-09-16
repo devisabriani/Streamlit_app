@@ -124,9 +124,9 @@ if st.button("Pianifica Lezione"):
         st.write("Spiacente, attualmente il progetto è in fase di ampliamento e non è operativo.")
     else:
         with st.spinner(""):
-    st.components.v1.html(image_slider_html, height=350)
-    result = crew.kickoff(inputs={"topic": argomento, "class": classe})
-    st.write(result)
+            st.components.v1.html(image_slider_html, height=350)
+            result = crew.kickoff(inputs={"topic": argomento, "class": classe})
+            st.write(result)
     
 
 #with st.spinner("Pianificazione in corso..."):
