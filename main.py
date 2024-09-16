@@ -120,7 +120,7 @@ image4 = get_base64_image("AI4.jpeg")
 # Codice HTML e JS con immagini convertite in base64
 image_slider_html = f"""
 <div style="text-align: center;">
-    <img id="slider" src="data:image/jpeg;base64,{image1}" alt="Loading" width="300">
+    <img id="slider" src="data:image/jpeg;base64,{image1}" alt="Loading" width="650">
 </div>
 <script type="text/javascript">
     var currentIndex = 0;
