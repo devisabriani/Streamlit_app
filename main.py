@@ -158,7 +158,6 @@ if st.button("Pianifica Lezione"):
 
         # Simula una richiesta all'API CrewAI (o chiama la tua vera API qui)
         result = crew.kickoff(inputs={"topic": argomento, "class": classe})
-        st.write(result)
 
         # Una volta ottenuta la risposta, aggiorna il contenuto e ferma l'animazione
         placeholder.empty()  # Svuota il placeholder per rimuovere lo slider
