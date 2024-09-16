@@ -106,10 +106,28 @@ crew = Crew(
 #openai_api_key = "abc"
 openai_api_key = st.secrets["OPENAI_API_KEY"]
 
+# Cattura output verbose degli agenti
+def run_agent_with_verbose(agent, task_input):
+    old_stdout = sys.stdout  # Memorizza il vecchio stdout
+    new_stdout = io.StringIO()  # Nuovo buffer per catturare l'output
+    sys.stdout = new_stdout  # Redirect stdout all'oggetto StringIO
+
+    result = agent.run(task_input)  # Esegui il task dell'agente
+
+    sys.stdout = old_stdout  # Ripristina stdout
+    verbose_output = new_stdout.getvalue()  # Raccoglie l'output
+
+    return result, verbose_output
+
+
+
+
+
 # Funzione per convertire l'immagine in base64 per renderla utilizzabile da HTML
 def get_base64_image(image_path):
     with open(image_path, "rb") as img_file:
         return base64.b64encode(img_file.read()).decode()
+
 
 # Funzione che simula la chiamata API
 def crewai_request():
@@ -159,11 +177,13 @@ if st.button("Pianifica Lezione"):
             st.components.v1.html(image_slider_html, height=350)
 
         # Simula una richiesta all'API CrewAI (o chiama la tua vera API qui)
-        result = crew.kickoff(inputs={"topic": argomento, "class": classe})
+        final_result = crew.kickoff(inputs={"topic": argomento, "class": classe})
+        result, verbose_output = run_agent_with_verbose(STEM_expert, lesson)
+        st.text(verbose_output)
 
         # Una volta ottenuta la risposta, aggiorna il contenuto e ferma l'animazione
         placeholder.empty()  # Svuota il placeholder per rimuovere lo slider
-        st.write(result)  # Mostra il risultato della richiesta API
+        st.write(final_result)  # Mostra il risultato della richiesta API
 
         # Aggiungi uno script per fermare lo slider dopo aver ricevuto la risposta
         st.components.v1.html("""
