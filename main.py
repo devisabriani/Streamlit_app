@@ -111,9 +111,9 @@ def get_base64_image(image_path):
 
 # Caricamento delle immagini in base64 per essere usate nel componente HTML
 image1 = get_base64_image("AI1.jpeg")
-image2 = get_base64_image("resources/AI2.jpeg")
-image3 = get_base64_image("resources/AI3.jpeg")
-image4 = get_base64_image("resources/AI4.jpeg")
+image2 = get_base64_image("AI2.jpeg")
+image3 = get_base64_image("AI3.jpeg")
+image4 = get_base64_image("AI4.jpeg")
 
 # Codice HTML e JS con immagini convertite in base64
 image_slider_html = f"""
