@@ -106,23 +106,19 @@ crew = Crew(
 #openai_api_key = "abc"
 openai_api_key = st.secrets["OPENAI_API_KEY"]
 
+import streamlit as st
+import base64
+import time
+
 # Funzione per convertire l'immagine in base64 per renderla utilizzabile da HTML
 def get_base64_image(image_path):
     with open(image_path, "rb") as img_file:
         return base64.b64encode(img_file.read()).decode()
 
-# Funzione per catturare i pensieri degli agenti in tempo reale
-def run_agent_with_verbose(agent, task_input):
-    old_stdout = sys.stdout  # Memorizza il vecchio stdout
-    new_stdout = io.StringIO()  # Nuovo buffer per catturare l'output
-    sys.stdout = new_stdout  # Redirect stdout all'oggetto StringIO
-
-    result = agent.run(task_input)  # Esegui il task dell'agente
-
-    sys.stdout = old_stdout  # Ripristina stdout
-    verbose_output = new_stdout.getvalue()  # Raccoglie l'output
-
-    return result, verbose_output
+# Funzione che simula la chiamata API
+def crewai_request():
+    time.sleep(10)  # Simula un'operazione che richiede tempo
+    return "Testo generato da CrewAI"
 
 # Caricamento delle immagini in base64 per essere usate nel componente HTML
 image1 = get_base64_image("AI1.jpeg")
@@ -141,7 +137,7 @@ image_slider_html = f"""
         "data:image/jpeg;base64,{image1}",
         "data:image/jpeg;base64,{image2}",
         "data:image/jpeg;base64,{image3}",
-        "data:image/jpeg/base64,{image4}"
+        "data:image/jpeg;base64,{image4}"
     ];
     var interval = setInterval(function() {{
         document.getElementById("slider").src = images[currentIndex];
@@ -159,33 +155,21 @@ if st.button("Pianifica Lezione"):
     if openai_api_key == "abc":
         st.write("Spiacente, attualmente il progetto è in fase di ampliamento e non è operativo.")
     else:
-        final_result = crew.kickoff(inputs={"topic": argomento, "class": classe})
-        # Layout a colonne per affiancare slider e pensieri
-        col1, col2 = st.columns(2)
+        # Crea un placeholder per il contenuto dinamico
+        placeholder = st.empty()
 
-        # Slider nella prima colonna
-        with col1:
-            slider_placeholder = st.empty()
-            with slider_placeholder:
-                st.components.v1.html(image_slider_html, height=350)
+        # Mostra lo slider delle immagini all'interno del placeholder
+        with placeholder:
+            st.components.v1.html(image_slider_html, height=350)
 
-        # Pensieri degli agenti in tempo reale nella seconda colonna
-        with col2:
-            thoughts_placeholder = st.empty()  # Placeholder per aggiornare i pensieri in tempo reale
+        # Simula una richiesta all'API CrewAI (o chiama la tua vera API qui)
+        result = crewai_request()
 
-            # Esegui l'agente e cattura i pensieri in tempo reale
-            result, verbose_output = run_agent_with_verbose(STEM_expert, lesson)
+        # Una volta ottenuta la risposta, aggiorna il contenuto e ferma l'animazione
+        placeholder.empty()  # Svuota il placeholder per rimuovere lo slider
+        st.write(result)  # Mostra il risultato della richiesta API
 
-            # Mostra i pensieri catturati
-            thoughts_placeholder.text(verbose_output)
-
-        # Rimuove lo slider e mostra il risultato finale
-        slider_placeholder.empty()  # Rimuovi lo slider quando l'operazione è terminata
-
-        # Mostra il risultato finale
-        st.write(final_result)
-
-        # Ferma lo slider con il JavaScript
+        # Aggiungi uno script per fermare lo slider dopo aver ricevuto la risposta
         st.components.v1.html("""
         <script type="text/javascript">
             stopSlider();  // Chiama la funzione per fermare lo slider
