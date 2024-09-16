@@ -155,25 +155,11 @@ image_slider_html = f"""
 </script>
 """
 
-# Simula l'agente per eseguire e raccogliere pensieri (per simulazione)
-class STEMExpert:
-    def run(self, task_input):
-        # Simuliamo un processo con output progressivo
-        for i in range(10):
-            print(f"Pensiero {i + 1}: L'agente sta pensando al task '{task_input}'...")
-            time.sleep(1)  # Simula tempo di elaborazione
-        return f"Risultato finale per il task '{task_input}'"
-
-# Inizializza l'agente STEM_expert
-STEM_expert = STEMExpert()
-
-# Input da utente per l'argomento di ricerca
-task_input = st.text_input("Inserisci il topic di ricerca", "AI Development")
-
 if st.button("Pianifica Lezione"):
     if openai_api_key == "abc":
         st.write("Spiacente, attualmente il progetto è in fase di ampliamento e non è operativo.")
     else:
+        final_result = crew.kickoff(inputs={"topic": argomento, "class": classe})
         # Layout a colonne per affiancare slider e pensieri
         col1, col2 = st.columns(2)
 
@@ -188,7 +174,7 @@ if st.button("Pianifica Lezione"):
             thoughts_placeholder = st.empty()  # Placeholder per aggiornare i pensieri in tempo reale
 
             # Esegui l'agente e cattura i pensieri in tempo reale
-            result, verbose_output = run_agent_with_verbose(STEM_expert, task_input)
+            result, verbose_output = run_agent_with_verbose(STEM_expert, lesson)
 
             # Mostra i pensieri catturati
             thoughts_placeholder.text(verbose_output)
@@ -197,7 +183,7 @@ if st.button("Pianifica Lezione"):
         slider_placeholder.empty()  # Rimuovi lo slider quando l'operazione è terminata
 
         # Mostra il risultato finale
-        st.write(result)
+        st.write(final_result)
 
         # Ferma lo slider con il JavaScript
         st.components.v1.html("""
