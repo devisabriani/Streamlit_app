@@ -99,20 +99,39 @@ crew = Crew(
     verbose=True
 )
 
-openai_api_key = "abc"
-#openai_api_key = st.secrets["OPENAI_API_KEY"]
+#openai_api_key = "abc"
+openai_api_key = st.secrets["OPENAI_API_KEY"]
+
+image_slider_html = """
+<div style="text-align: center;">
+    <img id="slider" src="AI1.jpeg" alt="Loading" width="300">
+</div>
+<script type="text/javascript">
+    var currentIndex = 0;
+    var images = ["AI1.jpeg", "AI2.jpeg", "AI3.jpeg", "AI4.jpeg"];
+    setInterval(function() {
+        document.getElementById("slider").src = images[currentIndex];
+        currentIndex = (currentIndex + 1) % images.length;
+    }, 1000);  // Cambia immagine ogni secondo
+</script>
+"""
+
+
+
 
 if st.button("Pianifica Lezione"):
     if openai_api_key == "abc":
         st.write("Spiacente, attualmente il progetto è in fase di ampliamento e non è operativo.")
     else:
-        with st.spinner("Pianificazione in corso..."):
-            result = crew.kickoff(inputs={"topic": argomento, "class": classe})
-            st.write(result)
+        with st.spinner(""):
+    st.components.v1.html(image_slider_html, height=350)
+    result = crew.kickoff(inputs={"topic": argomento, "class": classe})
+    st.write(result)
+    
 
-
-
-
+#with st.spinner("Pianificazione in corso..."):
+#            result = crew.kickoff(inputs={"topic": argomento, "class": classe})
+#            st.write(result)
 
 
 
