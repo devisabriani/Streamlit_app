@@ -168,7 +168,7 @@ if st.button("Pianifica Lezione"):
             </script>
             """)
         with col2:
-            st.write("Pappappero")
+            st.write(final_result.run())
             
         
         st.write(final_result)  # Mostra il risultato della richiesta API
