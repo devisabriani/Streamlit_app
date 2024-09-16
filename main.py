@@ -146,31 +146,28 @@ if st.button("Pianifica Lezione"):
     if openai_api_key == "abc":
         st.write("Spiacente, attualmente il progetto è in fase di ampliamento e non è operativo.")
     else:
+        # Crea un placeholder per il contenuto dinamico
+        placeholder = st.empty()
 
-        col1, col2 = st.columns([1, 2])
+        # Mostra lo slider delle immagini all'interno del placeholder
+        with placeholder:
+            st.components.v1.html(image_slider_html, height=650)
 
-        with col1:
-            # Crea un placeholder per il contenuto dinamico
-            placeholder = st.empty()
-    
-            # Mostra lo slider delle immagini all'interno del placeholder
-            with placeholder:
-                st.components.v1.html(image_slider_html, height=350)
-    
-            final_result = crew.kickoff(inputs={"topic": argomento, "class": classe})
-    
-            # Una volta ottenuta la risposta, aggiorna il contenuto e ferma l'animazione
-            placeholder.empty()  # Svuota il placeholder per rimuovere lo slider
-            # Aggiungi uno script per fermare lo slider dopo aver ricevuto la risposta
-            st.components.v1.html("""
-            <script type="text/javascript">
-                stopSlider();  // Chiama la funzione per fermare lo slider
-            </script>
-            """)
-        with col2:
-            st.write(final_result.run())
-            
-        
+        final_result = crew.kickoff(inputs={"topic": argomento, "class": classe})
+
+        # Una volta ottenuta la risposta, aggiorna il contenuto e ferma l'animazione
+        placeholder.empty()  # Svuota il placeholder per rimuovere lo slider
+
         st.write(final_result)  # Mostra il risultato della richiesta API
+
+        # Aggiungi uno script per fermare lo slider dopo aver ricevuto la risposta
+        st.components.v1.html("""
+        <script type="text/javascript">
+            stopSlider();  // Chiama la funzione per fermare lo slider
+        </script>
+        """)
+          
+        
+
 
         
