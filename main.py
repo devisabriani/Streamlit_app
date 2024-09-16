@@ -110,7 +110,7 @@ def get_base64_image(image_path):
         return base64.b64encode(img_file.read()).decode()
 
 # Caricamento delle immagini in base64 per essere usate nel componente HTML
-image1 = get_base64_image("resources/AI1.jpeg")
+image1 = get_base64_image("AI1.jpeg")
 image2 = get_base64_image("resources/AI2.jpeg")
 image3 = get_base64_image("resources/AI3.jpeg")
 image4 = get_base64_image("resources/AI4.jpeg")
