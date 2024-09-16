@@ -106,19 +106,10 @@ crew = Crew(
 #openai_api_key = "abc"
 openai_api_key = st.secrets["OPENAI_API_KEY"]
 
-import streamlit as st
-import base64
-import time
-
 # Funzione per convertire l'immagine in base64 per renderla utilizzabile da HTML
 def get_base64_image(image_path):
     with open(image_path, "rb") as img_file:
         return base64.b64encode(img_file.read()).decode()
-
-# Funzione che simula la chiamata API
-def crewai_request():
-    time.sleep(10)  # Simula un'operazione che richiede tempo
-    return "Testo generato da CrewAI"
 
 # Caricamento delle immagini in base64 per essere usate nel componente HTML
 image1 = get_base64_image("AI1.jpeg")
@@ -155,6 +146,7 @@ if st.button("Pianifica Lezione"):
     if openai_api_key == "abc":
         st.write("Spiacente, attualmente il progetto è in fase di ampliamento e non è operativo.")
     else:
+        final_result = crew.kickoff(inputs={"topic": argomento, "class": classe})
         # Crea un placeholder per il contenuto dinamico
         placeholder = st.empty()
 
@@ -162,12 +154,9 @@ if st.button("Pianifica Lezione"):
         with placeholder:
             st.components.v1.html(image_slider_html, height=350)
 
-        # Simula una richiesta all'API CrewAI (o chiama la tua vera API qui)
-        result = crewai_request()
-
         # Una volta ottenuta la risposta, aggiorna il contenuto e ferma l'animazione
         placeholder.empty()  # Svuota il placeholder per rimuovere lo slider
-        st.write(result)  # Mostra il risultato della richiesta API
+        st.write(final_result)  # Mostra il risultato della richiesta API
 
         # Aggiungi uno script per fermare lo slider dopo aver ricevuto la risposta
         st.components.v1.html("""
