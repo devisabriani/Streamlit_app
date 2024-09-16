@@ -4,6 +4,7 @@ load_dotenv()
 import os
 import streamlit as st
 import time
+import base64
 from crewai_tools import FileReadTool
 
 st.set_page_config(layout="wide", page_title="EduCrew - by Devis Abriani")
@@ -103,27 +104,36 @@ crew = Crew(
 #openai_api_key = "abc"
 openai_api_key = st.secrets["OPENAI_API_KEY"]
 
-ai1 = "resources/AI1.jpeg"
-ai2 = "resources/AI2.jpeg"
-ai3 = "resources/AI3.jpeg"
-ai4 = "resources/AI4.jpeg"
+# Funzione per convertire l'immagine in base64 per renderla utilizzabile da HTML
+def get_base64_image(image_path):
+    with open(image_path, "rb") as img_file:
+        return base64.b64encode(img_file.read()).decode()
 
+# Caricamento delle immagini in base64 per essere usate nel componente HTML
+image1 = get_base64_image("resources/AI1.jpeg")
+image2 = get_base64_image("resources/AI2.jpeg")
+image3 = get_base64_image("resources/AI3.jpeg")
+image4 = get_base64_image("resources/AI4.jpeg")
 
-image_slider_html = """
+# Codice HTML e JS con immagini convertite in base64
+image_slider_html = f"""
 <div style="text-align: center;">
-    <img id="slider" src="/resources/AI1.jpeg", alt="Loading" width="300">
+    <img id="slider" src="data:image/jpeg;base64,{image1}" alt="Loading" width="300">
 </div>
 <script type="text/javascript">
     var currentIndex = 0;
-    var images = ["/resources/AI1.jpeg", "/resources/AI2.jpeg", "/resources/AI3.jpeg", "/resources/AI4.jpeg"];
-    setInterval(function() {
+    var images = [
+        "data:image/jpeg;base64,{image1}",
+        "data:image/jpeg;base64,{image2}",
+        "data:image/jpeg;base64,{image3}",
+        "data:image/jpeg;base64,{image4}"
+    ];
+    setInterval(function() {{
         document.getElementById("slider").src = images[currentIndex];
         currentIndex = (currentIndex + 1) % images.length;
-    }, 1000);  // Cambia immagine ogni secondo
+    }}, 1000);  // Cambia immagine ogni secondo
 </script>
 """
-
-
 
 
 if st.button("Pianifica Lezione"):
