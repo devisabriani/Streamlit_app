@@ -103,8 +103,8 @@ crew = Crew(
     verbose=True
 )
 
-#openai_api_key = "abc"
-openai_api_key = st.secrets["OPENAI_API_KEY"]
+openai_api_key = "abc"
+#openai_api_key = st.secrets["OPENAI_API_KEY"]
 
 # Funzione per convertire l'immagine in base64 per renderla utilizzabile da HTML
 def get_base64_image(image_path):
