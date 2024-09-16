@@ -2,6 +2,8 @@ from crewai import Agent, Task, Crew
 from dotenv import load_dotenv
 load_dotenv()
 import os
+import io
+import sys
 import streamlit as st
 import time
 import base64
