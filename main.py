@@ -60,6 +60,7 @@ STEM_expert = Agent(
 )
 
 pdf_path = "resources/Linee-guida-Educazione-civica.pdf"
+ai1 = "resources/AI1.jpeg"
 
 DigComp_expert = Agent(
     role="Esperto del framework europeo DigComp",
@@ -104,11 +105,11 @@ openai_api_key = st.secrets["OPENAI_API_KEY"]
 
 image_slider_html = """
 <div style="text-align: center;">
-    <img id="slider" src="AI1.jpeg" alt="Loading" width="300">
+    <img id="slider" src=ai1, alt="Loading" width="300">
 </div>
 <script type="text/javascript">
     var currentIndex = 0;
-    var images = ["AI1.jpeg", "AI2.jpeg", "AI3.jpeg", "AI4.jpeg"];
+    var images = [ai1, "AI2.jpeg", "AI3.jpeg", "AI4.jpeg"];
     setInterval(function() {
         document.getElementById("slider").src = images[currentIndex];
         currentIndex = (currentIndex + 1) % images.length;
